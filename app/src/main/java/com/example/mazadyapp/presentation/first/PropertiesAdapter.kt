@@ -1,4 +1,4 @@
-package com.example.mazadyapp.presentation
+package com.example.mazadyapp.presentation.first
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,7 +29,11 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
     private var selectedProcessType: String? = null
     private var isOtherSelected = false
     private var currentOptionChildren: List<PropertiesResponse> = emptyList()
+    private val otherTextInputs = mutableMapOf<Int, String>()
 
+    fun setOtherText(position: Int, text: String) {
+        otherTextInputs[position] = text
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -62,6 +66,7 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
             if (layoutPosition == selectedPosition && isOtherSelected) {
                 binding.etOther.visibility = View.VISIBLE
                 binding.etOther.hint = "Please specify your ${item.slug}"
+                setOtherText(layoutPosition, binding.etOther.text.toString())
             } else {
                 binding.etOther.visibility = View.GONE
             }
@@ -148,6 +153,26 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
             bottomSheetDialog.show()
         }
     }
+
+    fun getSelectedData(): List<Pair<String, String>> {
+        val selectedData = mutableListOf<Pair<String, String>>()
+
+        currentList.forEachIndexed { index, property ->
+            val value = if (index == selectedPosition && isOtherSelected) {
+                // Get the "Other" text input value from our map
+                otherTextInputs[index] ?: "Not specified"
+            } else if (index == selectedPosition) {
+                selectedProcessType ?: "Not selected"
+            } else {
+                "Not selected"
+            }
+
+            selectedData.add(Pair(property.slug, value))
+        }
+
+        return selectedData
+    }
+
 
     companion object {
         val diffCallback = object : DiffUtil.ItemCallback<PropertiesResponse>() {

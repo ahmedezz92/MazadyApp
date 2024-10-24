@@ -1,4 +1,4 @@
-package com.example.mazadyapp.presentation
+package com.example.mazadyapp.presentation.first
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.example.mazadyapp.presentation
+package com.example.mazadyapp.presentation.first
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

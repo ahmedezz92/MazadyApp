@@ -1,17 +1,27 @@
-package com.example.mazadyapp.presentation
+package com.example.mazadyapp.presentation.first
 
+import android.app.Dialog
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.example.mazadyapp.R
 import com.example.mazadyapp.data.remote.model.Categories
 import com.example.mazadyapp.data.remote.model.Children
 import com.example.mazadyapp.data.remote.model.PropertiesResponse
 import com.example.mazadyapp.databinding.ActivityMainBinding
+import com.example.mazadyapp.presentation.second.SecondActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private var categories: List<Categories> = emptyList()
     private var subCategoriesList: List<PropertiesResponse> = emptyList()
 
-    private  val  propertiesAdapter: PropertiesAdapter by lazy { PropertiesAdapter(viewModel) }
+    private val propertiesAdapter: PropertiesAdapter by lazy { PropertiesAdapter(viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,12 +110,75 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-//
-//        binding.submitButton.setOnClickListener {
-//            if (validateForm()) {
-//                submitForm()
-//            }
-//        }
+
+        binding.submitButton.setOnClickListener {
+            submitForm()
+        }
+        binding.btnScreenTwo.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun submitForm() {
+        val selectedData = mutableListOf<Pair<String, String>>()
+
+        // Add main category
+        selectedData.add(Pair("Main Category", binding.mainCategoryDropdown.text.toString()))
+
+        // Add sub category
+        selectedData.add(Pair("Sub Category", binding.subCategoryDropdown.text.toString()))
+
+        // Add properties with their selected values
+        propertiesAdapter.getSelectedData().forEach { (property, value) ->
+            selectedData.add(Pair(property, value))
+        }
+
+        showSelectedDataDialog(selectedData)
+    }
+
+    private fun showSelectedDataDialog(selectedData: List<Pair<String, String>>) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_selected_data)
+
+        val tableLayout = dialog.findViewById<TableLayout>(R.id.tableLayout)
+
+        // Add data rows
+        selectedData.forEach { (field, value) ->
+            val tableRow = TableRow(this).apply {
+                layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT
+                )
+                setPadding(8, 8, 8, 8)
+            }
+
+            // Add field name
+            tableRow.addView(TextView(this).apply {
+                text = field
+                setTextColor(Color.BLACK)
+            })
+
+            // Add value
+            tableRow.addView(TextView(this).apply {
+                text = value
+                setTextColor(Color.BLACK)
+            })
+
+            tableLayout.addView(tableRow)
+
+            // Add separator
+            tableLayout.addView(View(this).apply {
+                layoutParams = TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    1
+                )
+                setBackgroundColor(Color.LTGRAY)
+            })
+        }
+
+        dialog.show()
     }
 
     private fun setupSubCategorySpinner(subCategories: List<Children>) {
