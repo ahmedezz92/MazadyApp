@@ -76,4 +76,21 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("io.coil-kt:coil:2.5.0")
 
+    // MockK for mocking
+    testImplementation ("io.mockk:mockk:1.13.5")
+
+    // Kotlin Coroutines Testing
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
+    // Turbine - Flow Testing
+    testImplementation ("app.cash.turbine:turbine:1.0.0")
+
+    // Core Android Testing
+    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
+
+    // Optional but recommended for Android specific testing
+    testImplementation ("androidx.test:core:1.5.0")
+    testImplementation ("androidx.test.ext:junit:1.1.5")
+
 }
