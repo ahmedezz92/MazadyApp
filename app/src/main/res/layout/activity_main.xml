@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Category Information"
+                    android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                <!-- Main Category -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Main Category">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/mainCategoryDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sub Category -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Sub Category">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/subCategoryDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Process Type -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Process Type"
+                    android:visibility="gone">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/processTypeDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSubcategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_subcategory" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            app:cardCornerRadius="8dp"-->
+        <!--            app:cardElevation="4dp">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:padding="16dp">-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:text="Vehicle Details"-->
+        <!--                    android:textAppearance="?attr/textAppearanceHeadline6" />-->
+
+        <!--                &lt;!&ndash; Brand &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Brand">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/brandDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Model &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Model">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/modelDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Type &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Type">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/typeDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Year &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Year">-->
+
+        <!--                    <com.google.android.material.textfield.TextInputEditText-->
+        <!--                        android:id="@+id/yearInput"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="number"-->
+        <!--                        android:maxLength="4" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--            </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            app:cardCornerRadius="8dp"-->
+        <!--            app:cardElevation="4dp">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:padding="16dp">-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:text="Technical Specifications"-->
+        <!--                    android:textAppearance="?attr/textAppearanceHeadline6" />-->
+
+        <!--                &lt;!&ndash; Transmission Type &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Transmission Type">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/transmissionDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Fuel Type &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Fuel Type">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/fuelTypeDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Mileage &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Mileage (km)">-->
+
+        <!--                    <com.google.android.material.textfield.TextInputEditText-->
+        <!--                        android:id="@+id/mileageInput"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="number" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--            </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+
+        <!--        <com.google.android.material.card.MaterialCardView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            app:cardCornerRadius="8dp"-->
+        <!--            app:cardElevation="4dp">-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:padding="16dp">-->
+
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:text="Condition and Price"-->
+        <!--                    android:textAppearance="?attr/textAppearanceHeadline6" />-->
+
+        <!--                &lt;!&ndash; Condition &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_marginBottom="16dp"-->
+        <!--                    android:hint="Condition">-->
+
+        <!--                    <AutoCompleteTextView-->
+        <!--                        android:id="@+id/conditionDropdown"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="none" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--                &lt;!&ndash; Price &ndash;&gt;-->
+        <!--                <com.google.android.material.textfield.TextInputLayout-->
+        <!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:hint="Price">-->
+
+        <!--                    <com.google.android.material.textfield.TextInputEditText-->
+        <!--                        android:id="@+id/priceInput"-->
+        <!--                        android:layout_width="match_parent"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:inputType="numberDecimal" />-->
+
+        <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--            </LinearLayout>-->
+        <!--        </com.google.android.material.card.MaterialCardView>-->
+
+        <!-- Submit Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
+</ScrollView>
