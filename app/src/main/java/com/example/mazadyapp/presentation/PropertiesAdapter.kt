@@ -26,12 +26,10 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
         diffCallback
     ) {
     private var selectedPosition = -1
-    private var selectedProperty: String? = null
+    private var selectedProcessType: String? = null
     private var isOtherSelected = false
     private var currentOptionChildren: List<PropertiesResponse> = emptyList()
-    private var selectedPositions = mutableMapOf<Int, String>()
-    private var otherSelectedPositions = mutableMapOf<Int, Boolean>()
-    private var childrenMap = mutableMapOf<Int, List<PropertiesResponse>>()
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -55,8 +53,8 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PropertiesResponse) {
             binding.tvProperty.hint = item.slug
-            binding.tvProperty.text = selectedPositions[layoutPosition] ?: ""
-
+            binding.tvProperty.text =
+                selectedProcessType.takeIf { layoutPosition == selectedPosition } ?: ""
             binding.tvProperty.setOnClickListener {
                 showCategoriesPropsBottomSheet(item, layoutPosition)
             }
@@ -77,21 +75,19 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
             bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
             val optionAdapter = OptionsAdapter { optionName ->
-//                val selectedOption = item.options.find { it.slug == optionName }
-//
-//                selectedPosition = position
-//                selectedProperty = optionName
-//                isOtherSelected = optionName == "Other"
-//                selectedOption?.let {
-//                    if (it.child) {
-//                        viewModel.getOptionChild(it.id)
-//                    }
-//                }
-                binding.tvProperty.text = optionName
-                handleOptionSelection(item, position, optionName)
+                val selectedOption = item.options.find { it.slug == optionName }
 
+                selectedPosition = position
+                selectedProcessType = optionName
+                isOtherSelected = optionName == "Other"
+                selectedOption?.let {
+                    if (it.child) {
+                        viewModel.getOptionChild(it.id)
+                    }
+                }
+                binding.tvProperty.text = optionName
                 bottomSheetDialog.dismiss()
-//                notifyItemChanged(position)
+                notifyItemChanged(position)
             }
 
             bottomSheetBinding.apply {
@@ -108,22 +104,22 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
 
 
                 // Observe option child state
-//                viewModel.optionChildState.flowWithLifecycle(
-//                    (binding.root.context as AppCompatActivity).lifecycle,
-//                    Lifecycle.State.STARTED
-//                ).onEach { state ->
-//                    when (state) {
-//                        is OptionChildState.Success -> {
-//                            state.data?.let { children ->
-//                                currentOptionChildren = children
-//                                // Update the options list with child options
-//                                optionAdapter.submitList(listOf("Other") + children.map { it.slug })
-//                            }
-//                        }
-//
-//                        else -> {}
-//                    }
-//                }.launchIn((binding.root.context as AppCompatActivity).lifecycleScope)
+                viewModel.optionChildState.flowWithLifecycle(
+                    (binding.root.context as AppCompatActivity).lifecycle,
+                    Lifecycle.State.STARTED
+                ).onEach { state ->
+                    when (state) {
+                        is OptionChildState.Success -> {
+                            state.data?.let { children ->
+                                currentOptionChildren = children
+                                // Update the options list with child options
+                                optionAdapter.submitList(listOf("Other") + children.map { it.slug })
+                            }
+                        }
+
+                        else -> {}
+                    }
+                }.launchIn((binding.root.context as AppCompatActivity).lifecycleScope)
                 // Set up search functionality
                 searchEditText.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
@@ -150,64 +146,6 @@ class PropertiesAdapter(private val viewModel: MainViewModel) :
                 })
             }
             bottomSheetDialog.show()
-        }
-
-        private fun handleOptionSelection(
-            item: PropertiesResponse,
-            position: Int,
-            optionName: String
-        ) {
-            selectedPositions[position] = optionName
-            otherSelectedPositions[position] = optionName == "Other"
-
-            // Remove any existing child items for this position
-            removeChildItems(position)
-
-            if (optionName != "Other") {
-                // Find the selected option
-                val selectedOption = item.options.find { it.slug == optionName }
-                selectedOption?.let {
-                    if (it.child) {
-                        // Fetch child options
-                        viewModel.getOptionChild(it.id)
-                        observeChildOptions(position, it.id)
-                    }
-                }
-            }
-            notifyItemChanged(position)
-        }
-
-        private fun observeChildOptions(parentPosition: Int, optionId: Int) {
-            viewModel.optionChildState.flowWithLifecycle(
-                (binding.root.context as AppCompatActivity).lifecycle,
-                Lifecycle.State.STARTED
-            ).onEach { state ->
-                when (state) {
-                    is OptionChildState.Success -> {
-                        state.data?.let { childOptions ->
-                            // Store children for this position
-                            childrenMap[parentPosition] = childOptions
-
-                            // Create new list with child items inserted after parent
-                            val currentList = currentList.toMutableList()
-                            currentList.addAll(parentPosition + 1, childOptions)
-                            submitList(currentList)
-                        }
-                    }
-
-                    else -> {}
-                }
-            }.launchIn((binding.root.context as AppCompatActivity).lifecycleScope)
-        }
-
-        private fun removeChildItems(parentPosition: Int) {
-            // Remove existing child items if any
-            childrenMap[parentPosition]?.let { childItems ->
-                val currentList = currentList.toMutableList()
-                currentList.removeAll(childItems)
-                childrenMap.remove(parentPosition)
-                submitList(currentList)
-            }
         }
     }
 
